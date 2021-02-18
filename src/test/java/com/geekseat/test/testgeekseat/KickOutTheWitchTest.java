@@ -14,20 +14,31 @@ public class KickOutTheWitchTest {
 
 	private MockMvc mockMvc;
 	
-	private static List<Villager> villagerList = new ArrayList<>();
+	private static List<Villager> villagerListCorrect = new ArrayList<>();
+	private static List<Villager> villagerListIncorrect = new ArrayList<>();
 	
 	static {
-		villagerList.add(new Villager(1, 3));
-		villagerList.add(new Villager(2, 4));
-		villagerList.add(new Villager(3, 5));
+		villagerListCorrect.add(new Villager(1, 3));
+		villagerListCorrect.add(new Villager(2, 4));
+		villagerListCorrect.add(new Villager(3, 5));
+		
+		villagerListIncorrect.add(new Villager(6, 5));
+		villagerListIncorrect.add(new Villager(2, 6));
+		villagerListIncorrect.add(new Villager(3, 5));
 	}
 	
 	
 	@Test
-	public void testCountAverageNumber() throws Exception {
+	public void testCorrectDataCountAverageNumber() throws Exception {
 		VillagerService service = new VillagerService();
-		Double result = service.countAverageNumber(villagerList);
+		Double result = service.countAverageNumber(villagerListCorrect);
 		Assertions.assertEquals(result, Double.valueOf(2));
 	}
 	
+	@Test
+	public void testIncorrectDataCountAverageNumber() throws Exception {
+		VillagerService service = new VillagerService();
+		Double result = service.countAverageNumber(villagerListIncorrect);
+		Assertions.assertEquals(result, Double.valueOf(-1));
+	}
 }
