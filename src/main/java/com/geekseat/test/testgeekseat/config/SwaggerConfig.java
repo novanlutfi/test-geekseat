@@ -1,4 +1,4 @@
-package com.geekseat.test.testgeekseat;
+package com.geekseat.test.testgeekseat.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
