@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,22 +20,23 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class KickOutTheWitchController {
 	@Autowired
-	VillagerService vilagerService;
+	VillagerService villagerService;
+	
+	@GetMapping("/")
+	public String index() {
+		return "Hello";
+	}
 	
 	@ApiOperation(value = "Service to count average number of people the witch killed on year of birth of those people")
 	@PostMapping(path = "/count-average-number")
 	public ResponseEntity<String> countAverageNumber(@Valid @RequestBody List<Villager> villagerList) {
-		int countData = villagerList.size();
-		int sumPeopleKilled = 0;
-		for(Villager villager : villagerList) {
-			int difference = villager.getYear_of_death()-villager.getAge_of_death();
-			if(difference <= 0) return new ResponseEntity<String>("-1", HttpStatus.BAD_REQUEST);
-			int peopleKilled = vilagerService.countVillagerKilled(difference);
-			
-			sumPeopleKilled += peopleKilled;
+		Double result = villagerService.countAverageNumber(villagerList);
+		
+		if(result <= 0) {
+			return new ResponseEntity<String>("-1",HttpStatus.BAD_REQUEST);
 		}
-		Double average = Double.valueOf(sumPeopleKilled) / Double.valueOf(countData);
-		return new ResponseEntity<String>("average number of people the witch killed on year of birth of those people = " + average.toString(),
+		
+		return new ResponseEntity<String>("average number of people the witch killed on year of birth of those people = " + result.toString(),
 				HttpStatus.OK);
 	}
 }

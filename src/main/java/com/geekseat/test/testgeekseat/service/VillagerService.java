@@ -1,6 +1,12 @@
 package com.geekseat.test.testgeekseat.service;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import com.geekseat.test.testgeekseat.model.Villager;
 
 @Component
 public class VillagerService {
@@ -24,5 +30,18 @@ public class VillagerService {
 		
 		
 		return sum;
+	}
+	
+	public Double countAverageNumber(List<Villager> villagerList) {
+		int countData = villagerList.size();
+		int sumPeopleKilled = 0;
+		for(Villager villager : villagerList) {
+			int difference = villager.getYear_of_death()-villager.getAge_of_death();
+			if(difference <= 0) return Double.valueOf(-1);
+			int peopleKilled = countVillagerKilled(difference);
+			
+			sumPeopleKilled += peopleKilled;
+		}
+		return Double.valueOf(sumPeopleKilled) / Double.valueOf(countData);
 	}
 }

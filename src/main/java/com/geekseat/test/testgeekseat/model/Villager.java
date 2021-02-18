@@ -22,5 +22,11 @@ public class Villager {
 	public void setYear_of_death(Integer year_of_death) {
 		this.year_of_death = year_of_death;
 	}
+	public Villager(@Min(value = 0, message = "Age of Death minimal bernilai 0") Integer age_of_death,
+			@Min(value = 0, message = "Year of Death minimal bernilai 0") Integer year_of_death) {
+		super();
+		this.age_of_death = age_of_death;
+		this.year_of_death = year_of_death;
+	}
 	
 }
